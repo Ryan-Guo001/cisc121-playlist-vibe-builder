@@ -8,11 +8,13 @@ Quick is in-place algorithm. It can perform comparsion and swaps in original lis
 ## Demo video/gif/screenshot of test
 
 ## Problem Breakdown & Computational Thinking
+- Decomposition: Quick sort divided it into partition, left list and right list.
+- Pattern Recognition: The repeat is comparsion and swaps.
+- Abstraction: Only show current songs + highlight items + illustration about pivot and swaps.
+- Algorithm Design: Input (song list + sorting key) → Processing (Quick Sort generator produces the state of every step) → Output (progressively updated Gradio DataFrame + step-by-step animation explanation).
 Users can add new songs and sort them. It can show the sorting steps and display the final list.
 <img width="406" height="658" alt="image" src="https://github.com/user-attachments/assets/40fa8f44-64d7-43a9-bb44-89919d5f3136" />
 
-
-(You can add a flowchart and write the four pillars of computational thinking briefly in bullets)
 
 ## Steps to Run
 1. install dependencies: 'pip install -r requirements txt.'
