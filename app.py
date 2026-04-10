@@ -1,7 +1,6 @@
 # ================================================
-# CISC 121 Playlist Vibe Builder
-# This is the main file for Step 3 + Step 4
-# Simple Quick Sort + Gradio Interface
+# CISC 121 Playlist Vibe Builder - FINAL FIXED VERSION
+# Can add unlimited songs + correct column names
 # ================================================
 
 import gradio as gr
@@ -9,19 +8,18 @@ import pandas as pd
 import time
 import random
 
-# ------------------- Default songs -------------------
-# Empty list so the app starts with no songs (as requested)
+# Empty playlist when app starts
 default_songs = []
 
+# Define column names explicitly (this fixes the "1 2 3" header bug)
+COLUMNS = ["title", "artist", "energy", "duration"]
+empty_df = pd.DataFrame(columns=COLUMNS)
+
 # ================================================
-# Step 3: Our own Quick Sort (most important part)
+# Quick Sort with steps
 # ================================================
 
 def get_quick_sort_steps(song_list, sort_key):
-    """
-    This function records every single step of Quick Sort
-    and returns a list. Each item in the list is one step.
-    """
     steps = []
     
     def partition(low, high):
@@ -31,19 +29,16 @@ def get_quick_sort_steps(song_list, sort_key):
         steps.append((song_list.copy(), f"Selected pivot: {song_list[pivot_index]['title']} (value = {pivot_value})"))
         
         i = low - 1
-        
         for j in range(low, high):
             steps.append((song_list.copy(), f"Comparing {song_list[j]['title']} ({song_list[j][sort_key]}) with pivot"))
-            
             if song_list[j][sort_key] <= pivot_value:
-                i = i + 1
+                i += 1
                 if i != j:
                     song_list[i], song_list[j] = song_list[j], song_list[i]
                     steps.append((song_list.copy(), f"Swapped {song_list[i]['title']} <-> {song_list[j]['title']}"))
         
         song_list[i+1], song_list[high] = song_list[high], song_list[i+1]
         steps.append((song_list.copy(), f"Pivot placed at position {i+1}"))
-        
         return i + 1
     
     def quick_sort(low, high):
@@ -54,16 +49,15 @@ def get_quick_sort_steps(song_list, sort_key):
     
     quick_sort(0, len(song_list) - 1)
     steps.append((song_list.copy(), "Sorting completed!"))
-    
     return steps
 
 # ================================================
-# Add new song function (FIXED - can now add multiple songs)
+# Add song - FIXED (robust version)
 # ================================================
 
 def add_song(title, artist, energy, duration, current_songs):
     if not title or not artist:
-        return pd.DataFrame(current_songs), current_songs, "Error: Song title and artist cannot be empty!"
+        return empty_df, current_songs, "Error: Song title and artist cannot be empty!"
     
     new_song = {
         "title": title.strip(),
@@ -73,7 +67,11 @@ def add_song(title, artist, energy, duration, current_songs):
     }
     current_songs.append(new_song)
     
-    return pd.DataFrame(current_songs), current_songs, "Song added successfully!"
+    # Force Gradio to update by creating a fresh list and DataFrame
+    updated_list = list(current_songs)
+    updated_df = pd.DataFrame(updated_list, columns=COLUMNS)
+    
+    return updated_df, updated_list, "Song added successfully!"
 
 # ================================================
 # Run animation
@@ -87,18 +85,18 @@ def run_animation(current_songs_df, sort_key):
     all_steps = get_quick_sort_steps(song_list, sort_key)
     
     for i, (current_state, message) in enumerate(all_steps):
-        df = pd.DataFrame(current_state)
+        df = pd.DataFrame(current_state, columns=COLUMNS)
         yield df, f"Step {i+1} / {len(all_steps)}: {message}"
         time.sleep(0.8)
     
-    final_df = pd.DataFrame(current_state)
+    final_df = pd.DataFrame(current_state, columns=COLUMNS)
     yield final_df, "Sorting completed! Here is your final Playlist Vibe!"
 
 # ================================================
-# Gradio web interface
+# Gradio Interface
 # ================================================
 
-with gr.Blocks(title="Playlist Vibe Builder - Simple Version") as demo:
+with gr.Blocks(title="Playlist Vibe Builder") as demo:
     gr.Markdown("# Playlist Vibe Builder\nQuick Sort with step-by-step animation")
 
     with gr.Row():
@@ -113,7 +111,7 @@ with gr.Blocks(title="Playlist Vibe Builder - Simple Version") as demo:
         with gr.Column(scale=2):
             gr.Markdown("### Current Playlist")
             playlist_state = gr.State(default_songs)
-            playlist_df = gr.DataFrame(value=pd.DataFrame(default_songs), label="Playlist")
+            playlist_df = gr.DataFrame(value=empty_df, label="Playlist")
 
     with gr.Row():
         sort_key = gr.Radio(["energy", "duration"], value="energy", label="Sort by")
@@ -123,7 +121,6 @@ with gr.Blocks(title="Playlist Vibe Builder - Simple Version") as demo:
         animated_df = gr.DataFrame(label="Sorting Animation")
         step_text = gr.Textbox(label="Current Step", interactive=False)
 
-    # Button events (FIXED)
     add_btn.click(
         add_song,
         inputs=[title_in, artist_in, energy_in, duration_in, playlist_state],
