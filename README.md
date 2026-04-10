@@ -11,9 +11,9 @@ Quick is in-place algorithm. It can perform comparsion and swaps in original lis
 
 ## Demo
 
-**Video Demonstration of Quick Sort Animation**
-
 <video src="demo.mp4" controls width="100%"></video>
+
+*(Shows adding songs, starting Quick Sort animation, step-by-step visualization with pivot/comparisons/swaps, and final sorted playlist)*
 
 *(Shows adding songs, starting the animation, step-by-step visualization, and final sorted playlist)*
 ## Problem Breakdown & Computational Thinking
@@ -37,6 +37,10 @@ Eage case 1: Empty playlist -> shows clear error message.
 Edge case 2: Only 1 song -> immediately shows "Sorting completed!"
 Edge case 3: All songs have the same energy/duration value -> still corrected orderd.
 Input validation: Empty title or artist -> shows helpful error message
+**Demo Video of Testing**
+
+<video src="demo.mp4" controls width="100%"></video>
+
 ## Author & AI Acknowledgment
 **Author:** Zihou Guo
 **Student number:** 20483495
