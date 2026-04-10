@@ -32,6 +32,9 @@ Users can add new songs and sort them. It can show the sorting steps and display
 ## Hugging Face Link
 https://huggingface.co/spaces/Ryan0806/playlist-vibe-builder
 
+## URL link
+https://a88d96802e1c222a47.gradio.live/
+
 ## Testing
 Normal Case: 5 default songs sorted by energy and by duration.
 Eage case 1: Empty playlist -> shows clear error message.
