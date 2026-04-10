@@ -9,8 +9,13 @@ Users can add songs (with title, artist, energy score 0-100, and duration) to a 
 **Why choose quick sort**
 Quick is in-place algorithm. It can perform comparsion and swaps in original list. That is perfect because users can see the pivot selection, pointer movement, and swaps happening in real time directly. It has an average time complexity O(nlong(n)), which is efficient for a typical playlist size (10 - 50 songs).
 
-## Demo video/gif/screenshot of test
+## Demo
+
+**Video Demonstration of Quick Sort Animation**
+
 <video src="demo.mp4" controls width="100%"></video>
+
+*(Shows adding songs, starting the animation, step-by-step visualization, and final sorted playlist)*
 ## Problem Breakdown & Computational Thinking
 - Decomposition: Quick sort divided it into partition, left list and right list.
 - Pattern Recognition: The repeat is comparsion and swaps.
