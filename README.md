@@ -25,7 +25,7 @@ Users can add new songs and sort them. It can show the sorting steps and display
 2. Run on app: 'python3 app.py'
 
 ## Hugging Face Link
-
+https://huggingface.co/spaces/Ryan0806/playlist-vibe-builder
 ## Testing
 Normal Case: 5 default songs sorted by energy and by duration.
 Eage case 1: Empty playlist -> shows clear error message.
